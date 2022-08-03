@@ -7,6 +7,10 @@ namespace ConsoleUI
         static void Main()
         {
             string input = HandleInput("Please enter the path: ");
+            while (!Directory.Exists(input))
+            {
+                input = HandleInput("Please enter a correct path.");
+            }
             int amount = 10;
             bool isAmountCorrect = Int32.TryParse(HandleInput("How many files do you want to randomize?"), out int result);
             if (isAmountCorrect)
@@ -18,11 +22,12 @@ namespace ConsoleUI
             string[] filenames = AddFilenames(input);
             string[] randomized = Randomize(filenames, amount);
             Copy(input, randomized);
+            Console.WriteLine("Done! Press any key to exit...");
         }
         static string HandleInput(string message)
         {
             Console.WriteLine(message);
-            string? input = Console.ReadLine();
+            string? input = @Console.ReadLine();
             if (input is null)
                 input = "";
             return input;
