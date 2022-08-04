@@ -12,6 +12,7 @@ namespace ConsoleUI
             string[] filenamesRandomized = RandomizeFiles(filenames, fileAmount);
             Copy(path, filenamesRandomized);
             Console.WriteLine("Done! Press any key to exit...");
+            Console.ReadKey();
         }
         static string HandleInput(string message)
         {
@@ -61,9 +62,11 @@ namespace ConsoleUI
         {
             DirectoryInfo dir = new(path);
             dir.CreateSubdirectory("Copied");
-            for(int i = 0; i < randomized.Length; i++)
+            foreach(string filename in randomized)
             {
-                File.Copy(randomized[i], @$"{path}\Copied\file{i + 1}.jpg", true);
+                string filenameFixed = filename[(path.Length + 1)..];
+                Console.WriteLine($"{filenameFixed} has been copied!");
+                File.Copy(Path.Combine(path, filenameFixed), Path.Combine($@"{path}\Copied", filenameFixed), true);
             }
         }
     }
