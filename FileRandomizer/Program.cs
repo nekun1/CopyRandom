@@ -7,18 +7,7 @@ namespace ConsoleUI
         static void Main()
         {
             string input = HandleInput("Please enter the path: ");
-            while (!Directory.Exists(input))
-            {
-                input = HandleInput("Please enter a correct path.");
-            }
-            int amount = 10;
-            bool isAmountCorrect = Int32.TryParse(HandleInput("How many files do you want to randomize?"), out int result);
-            if (isAmountCorrect)
-            {
-                amount = result;
-            }
-            else
-                Console.WriteLine("Incorrect amount inputted, defaulting to 10"); ;
+            int amount = CheckForAmount();
             string[] filenames = AddFilenames(input);
             string[] randomized = Randomize(filenames, amount);
             Copy(input, randomized);
@@ -32,7 +21,27 @@ namespace ConsoleUI
                 input = "";
             return input;
         }
-        public static string[] AddFilenames(string path)
+        static int CheckForAmount()
+        {
+            int amount = 10;
+            bool isAmountCorrect = Int32.TryParse(HandleInput("How many files do you want to randomize?"), out int result);
+            if (isAmountCorrect)
+            {
+                amount = result;
+            }
+            else
+                Console.WriteLine("Incorrect amount inputted, defaulting to 10");
+            return amount;
+        }
+        
+        //static void CheckForPath()
+        //{
+        //    while (!Directory.Exists(input))
+        //    {
+        //        input = HandleInput("Please enter a correct path.");
+        //    }
+        //}
+        static string[] AddFilenames(string path)
         {
             string[] filenames = Directory.GetFiles(path);
             return filenames;
