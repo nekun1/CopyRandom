@@ -6,7 +6,7 @@ namespace ConsoleUI
     {
         static void Main()
         {
-            string path = HandleInput("Please enter the path: ");
+            string path = CheckForPath();
             int fileAmount = CheckForAmount();
             string[] filenames = AddFilenames(path);
             string[] filenamesRandomized = RandomizeFiles(filenames, fileAmount);
@@ -31,14 +31,16 @@ namespace ConsoleUI
             }
             return amount;
         }
-        
-        //static void CheckForPath()
-        //{
-        //    while (!Directory.Exists(input))
-        //    {
-        //        input = HandleInput("Please enter a correct path.");
-        //    }
-        //}
+
+        static string CheckForPath()
+        {
+            string output = HandleInput("Please enter the path: ");
+            while (!Directory.Exists(output))
+            {
+                output = HandleInput("Please enter a correct path.");
+            }
+            return output;
+        }
         static string[] AddFilenames(string path)
         {
             string[] filenames = Directory.GetFiles(path);
